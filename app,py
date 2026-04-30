@@ -1,1 +1,42 @@
+import streamlit as st
 
+# ---------- SESSION ----------
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+# ---------- LOGIN ----------
+if not st.session_state.logged_in:
+
+    st.title("Login Page")
+
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+
+    if st.button("Login"):
+        if username == "admin" and password == "123":
+            st.session_state.logged_in = True
+            st.success("Login successful!")
+            st.rerun()
+        else:
+            st.error("Invalid credentials")
+
+    st.stop()
+
+# ---------- MAIN APP ----------
+if st.session_state.logged_in:
+
+    st.title("YOLO Detection App")
+
+    if st.button("Logout"):
+        st.session_state.logged_in = False
+        st.rerun()
+
+    st.success("You are logged in!")
+
+    # YOLO / webcam / upload goes here
+    st.subheader("Model Performance")
+
+st.write("Model: YOLOv8 Custom / Pretrained")
+st.write("Objects detected: Helmet, Mask, Mobile, Bottle, ID Card")
+st.write("Confidence threshold: 0.5")
+if st.session_state.logged_in:
